@@ -48,6 +48,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function unknownNumberOfElementsStringAddsAll()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("1.1,2.2,3.3,1,0,0.3,-2.1");
+
+        $this->assertEquals("5.8", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
