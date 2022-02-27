@@ -36,6 +36,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function twoElementsStringAddsBoth()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("1.1,2.2");
+
+        $this->assertEquals("3.3", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
