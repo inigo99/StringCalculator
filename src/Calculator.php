@@ -4,7 +4,7 @@ namespace Deg540\PHPTestingBoilerplate;
 
 use http\Encoding\Stream;
 
-class Calculator{
+class Calculator {
 
     function add(String $numbers): String {
         $length = strlen($numbers);
@@ -16,7 +16,7 @@ class Calculator{
             // Get the custom delimiter
             $delimiter = $this->getCustomDelimiter($numbers);
 
-            if ($numbers[0] === '/'){
+            if ($numbers[0] === '/') {
                 // If using a custom delimiter, cut the input string
                 $cutPos = strlen("//".$delimiter."\n");
                 $numbers = substr($numbers, $cutPos);
@@ -28,14 +28,23 @@ class Calculator{
                 return $error;
             }
 
+            // Check if there are illegal delimiters
+            $error = $this->checkDelimiter($numbers, $delimiter);
+            if (strcmp($error, "") !== 0) {
+                return $error;
+            }
+
             $number1 = strtok($numbers, $this->separator($numbers, $delimiter));
             $number2 = strtok('/');
+
             // Add first element to result
             $result = floatval($number1);
             while ($number2 !== false) {
                 // If enters here, more than one element
                 $number1 = strtok($number2, $this->separator($number2, $delimiter));
                 $number2 = strtok('/');
+                // If delimiter is larger than 1, cut the delimiter that remains
+                $number1 = substr($number1, strlen($delimiter) - 1);
                 $result = $result + floatval($number1);
             }
 
@@ -101,7 +110,7 @@ class Calculator{
             $lastChar = substr($input, -1);
             if (strcmp($lastChar, $delimiter) === 0) {
                 return "Number expected but NOT found.";
-            } else{
+            } else {
                 return "";
             }
         }
@@ -112,12 +121,32 @@ class Calculator{
         $start = substr($input, 0, 2);
         if (strcmp($start, "//") === 0) {
             // If starts with "//" there's a custom delimiter
-            $end = stripos($input, "\n");;
+            $end = stripos($input, "\n");
             $delimiter = substr($input, 2, $end - 2);
             return $delimiter;
         } else {
             return ",";
         }
+    }
+
+    function checkDelimiter(String $input, String $delimiter): String {
+        for ($pos = 0; $pos < strlen($input); $pos++) {
+            $char = $input[$pos];
+            if (!is_numeric($char)) {
+                // If char is not a number
+                if ((strcmp($char, "\n") !== 0) && ($char !== '.')) {
+                    // If char is not newline or a dot
+                    $illegal = substr($input, $pos, strlen(($delimiter)));
+                    if (strcmp($delimiter, $illegal) !== 0) {
+                        // If char is not our delimiter
+                        return "'" . $delimiter . "' expected but '" . $illegal . "' found at position " . $pos . ".";
+                    }
+                    $pos = $pos + strlen($delimiter) - 1;
+                }
+                $pos = $pos + 1;
+            }
+        }
+        return "";
     }
 
     function multiply(int $number1, int $number2): int
