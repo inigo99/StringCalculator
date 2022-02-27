@@ -60,6 +60,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function allowNewlineAsSeparatorAtAdd()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("1\n2,3");
+
+        $this->assertEquals("6", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
