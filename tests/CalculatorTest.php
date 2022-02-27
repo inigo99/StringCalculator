@@ -52,9 +52,9 @@ final class CalculatorTest extends TestCase
     {
         $calculator = new Calculator();
 
-        $result = $calculator->add("1.1,2.2,3.3,1,0,0.3,-2.1");
+        $result = $calculator->add("1.1,2.2,3.3,1,0,0.3");
 
-        $this->assertEquals("5.8", $result);
+        $this->assertEquals("7.9", $result);
     }
 
     /**
@@ -67,6 +67,18 @@ final class CalculatorTest extends TestCase
         $result = $calculator->add("1\n2,3");
 
         $this->assertEquals("6", $result);
+    }
+
+    /**
+     * @test
+     */
+    public function CheckSeparatorAtAdd()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("175.2,\n35");
+
+        $this->assertEquals("Number expected but '\n' found at position 6.", $result);
     }
 
     /**

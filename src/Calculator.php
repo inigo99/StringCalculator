@@ -11,6 +11,12 @@ class Calculator{
         if ($length == 0) {
             return "0";
         } else {
+            $error = $this->checkInput($numbers);
+            if (strcmp($error, "") !== 0) {
+                // If there's an error, return error message
+                return $error;
+            }
+
             $number1 = strtok($numbers, $this->separator($numbers));
             $number2 = strtok('/');
             // Add first element to result
@@ -36,14 +42,14 @@ class Calculator{
             // If there's a comma
             if ($newLine !== false) {
                 // If there's a newLine
-                if ($comma < $newLine){
+                if ($comma < $newLine) {
                     // If there's a comma first
                     return ",";
-                }else{
+                } else {
                     // If there's a newLine first
                     return "\n";
                 }
-            }else{
+            } else {
                 // If there's only a comma
                 return ",";
             }
@@ -52,6 +58,37 @@ class Calculator{
             return "\n";
         }
         return "";
+    }
+
+    function checkInput(String $input) {
+        $pos1 = strpos($input, ",\n");
+        $pos2 = strpos($input, "\n,");
+        if ($pos1 !== false) {
+            // If there's an newline after a comma
+            if ($pos2 !== false) {
+                // If there's a comma after a newline
+                if ($pos1 < $pos2) {
+                    // If the comma comes first
+                    $val = "\n";
+                    $pos = $pos1 + 1;
+                } else {
+                    // If the newline comes first
+                    $val = ",";
+                    $pos = $pos2 + 1;
+                }
+            } else {
+                // Only newline after comma
+                $val = "\n";
+                $pos = $pos1 + 1;
+            }
+        } else if ($pos2 !== false) {
+            // If there's a comma after a newline
+            $val = ",";
+            $pos = $pos2 + 1;
+        } else {
+            return "";
+        }
+        return "Number expected but '" . $val . "' found at position " . $pos .".";
     }
 
     function multiply(int $number1, int $number2): int
