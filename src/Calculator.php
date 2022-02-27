@@ -43,7 +43,7 @@ class Calculator {
             $number1 = strtok($numbers, $this->separator($numbers, $delimiter));
             $number2 = strtok('/');
             // If the number is negative it's added to the list
-            if(floatval($number1) < 0){
+            if (floatval($number1) < 0) {
                 $negatives[] = $number1;
             }
 
@@ -56,7 +56,7 @@ class Calculator {
                 // If delimiter is larger than 1, cut the delimiter that remains
                 $number1 = substr($number1, strlen($delimiter) - 1);
                 // If the number is negative it's added to the list
-                if(floatval($number1) < 0){
+                if (floatval($number1) < 0) {
                     $negatives[] = $number1;
                 }
                 $result = $result + floatval($number1);
@@ -64,7 +64,7 @@ class Calculator {
 
             if (sizeof($negatives) > 0) {
                 $list = "";
-                foreach ($negatives as $negative){
+                foreach ($negatives as $negative) {
                     $list = $list . $negative . ", ";
                 }
                 $list = substr($list, 0, strlen($list) - 2);
@@ -181,10 +181,5 @@ class Calculator {
             }
         }
         return "";
-    }
-
-    function multiply(int $number1, int $number2): int
-    {
-        return 0;
     }
 }

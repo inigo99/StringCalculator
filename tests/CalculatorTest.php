@@ -133,15 +133,4 @@ final class CalculatorTest extends TestCase {
 
         $this->assertEquals("Number expected but ',' found at position 3.\nNegative not allowed: -1", $result);
     }
-
-    /**
-     * @test
-     */
-    public function shouldMultiplyTwoArguments() {
-        $calculator = new Calculator();
-
-        $result = $calculator->multiply(1, 2);
-
-        $this->assertEquals(2, $result);
-    }
 }
