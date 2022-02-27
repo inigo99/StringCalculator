@@ -111,6 +111,21 @@ final class CalculatorTest extends TestCase {
     /**
      * @test
      */
+    public function NegativeNumbersAdd() {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("-1,2");
+
+        $this->assertEquals("Negative not allowed: -1", $result);
+
+        $result = $calculator->add("2,-4,-5");
+
+        $this->assertEquals("Negative not allowed: -4, -5", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments() {
         $calculator = new Calculator();
 

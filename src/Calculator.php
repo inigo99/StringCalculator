@@ -9,6 +9,7 @@ class Calculator {
     function add(String $numbers): String {
         $length = strlen($numbers);
 
+        $negatives = array();
         // If length is 0, empty string
         if ($length == 0) {
             return "0";
@@ -36,6 +37,10 @@ class Calculator {
 
             $number1 = strtok($numbers, $this->separator($numbers, $delimiter));
             $number2 = strtok('/');
+            // If the number is negative it's added to the list
+            if(floatval($number1) < 0){
+                $negatives[] = $number1;
+            }
 
             // Add first element to result
             $result = floatval($number1);
@@ -45,7 +50,20 @@ class Calculator {
                 $number2 = strtok('/');
                 // If delimiter is larger than 1, cut the delimiter that remains
                 $number1 = substr($number1, strlen($delimiter) - 1);
+                // If the number is negative it's added to the list
+                if(floatval($number1) < 0){
+                    $negatives[] = $number1;
+                }
                 $result = $result + floatval($number1);
+            }
+
+            if (sizeof($negatives) > 0) {
+                $list = "";
+                foreach ($negatives as $negative){
+                    $list = $list . $negative . ", ";
+                }
+                $list = substr($list, 0, strlen($list) - 2);
+                return "Negative not allowed: " . $list;
             }
 
             // Return as String
@@ -134,8 +152,8 @@ class Calculator {
             $char = $input[$pos];
             if (!is_numeric($char)) {
                 // If char is not a number
-                if ((strcmp($char, "\n") !== 0) && ($char !== '.')) {
-                    // If char is not newline or a dot
+                if ((strcmp($char, "\n") !== 0) && ($char !== '.') && ($char !== '-')) {
+                    // If char is not newline or a dot or a negative operator
                     $illegal = substr($input, $pos, strlen(($delimiter)));
                     if (strcmp($delimiter, $illegal) !== 0) {
                         // If char is not our delimiter
