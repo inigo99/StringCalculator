@@ -10,6 +10,12 @@ class Calculator{
         // If length is 0, empty string
         if($length == 0){
             return "0";
+        }else{
+            $pos = strpos($numbers, ",");
+            if($pos === false) {
+                // If no comma, one element
+                return $numbers;
+            }
         }
         return "";
     }

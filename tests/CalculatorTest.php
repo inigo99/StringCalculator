@@ -24,6 +24,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function oneElementStringAddsHimself()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("1.3");
+
+        $this->assertEquals("1.3", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
