@@ -86,7 +86,13 @@ class Calculator{
             $val = ",";
             $pos = $pos2 + 1;
         } else {
-            return "";
+            // Check if the last number is missing
+            $lastChar = substr($input, -1);
+            if (strcmp($lastChar, ",") === 0) {
+                return "Number expected but NOT found.";
+            } else{
+                return "";
+            }
         }
         return "Number expected but '" . $val . "' found at position " . $pos .".";
     }

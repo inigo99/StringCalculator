@@ -84,6 +84,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function MissingLastNumberAtAdd()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("1,3,");
+
+        $this->assertEquals("Number expected but NOT found.", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
