@@ -12,13 +12,13 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddTwoArguments()
+    public function emptyStringAddsZero()
     {
         $calculator = new Calculator();
 
-        $result = $calculator->add(1, 2);
+        $result = $calculator->add("");
 
-        $this->assertEquals(3, $result);
+        $this->assertEquals("0", $result);
     }
 
     /**
