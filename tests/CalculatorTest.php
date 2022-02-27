@@ -96,6 +96,18 @@ final class CalculatorTest extends TestCase
     /**
      * @test
      */
+    public function CustomDelimiterAtAdd()
+    {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("//;\n1;2");
+
+        $this->assertEquals("3", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments()
     {
         $calculator = new Calculator();
