@@ -126,6 +126,17 @@ final class CalculatorTest extends TestCase {
     /**
      * @test
      */
+    public function MultipleErrorsAdd() {
+        $calculator = new Calculator();
+
+        $result = $calculator->add("-1,,2");
+
+        $this->assertEquals("Number expected but ',' found at position 3.\nNegative not allowed: -1", $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMultiplyTwoArguments() {
         $calculator = new Calculator();
 

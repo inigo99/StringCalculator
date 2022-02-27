@@ -9,7 +9,12 @@ class Calculator {
     function add(String $numbers): String {
         $length = strlen($numbers);
 
+        // List for negatives
         $negatives = array();
+
+        // List for errors
+        $errors = "";
+
         // If length is 0, empty string
         if ($length == 0) {
             return "0";
@@ -25,14 +30,14 @@ class Calculator {
 
             $error = $this->checkInput($numbers, $delimiter);
             if (strcmp($error, "") !== 0) {
-                // If there's an error, return error message
-                return $error;
+                // If there's an error, add error message
+                $errors = $errors . $error . "\n";
             }
 
             // Check if there are illegal delimiters
             $error = $this->checkDelimiter($numbers, $delimiter);
             if (strcmp($error, "") !== 0) {
-                return $error;
+                $errors = $errors . $error . "\n";
             }
 
             $number1 = strtok($numbers, $this->separator($numbers, $delimiter));
@@ -63,7 +68,11 @@ class Calculator {
                     $list = $list . $negative . ", ";
                 }
                 $list = substr($list, 0, strlen($list) - 2);
-                return "Negative not allowed: " . $list;
+                $errors = $errors . "Negative not allowed: " . $list . "\n";
+            }
+
+            if (strcmp($errors, "") !== 0) {
+                return substr($errors, 0, strlen($errors) - 1);
             }
 
             // Return as String
@@ -108,7 +117,7 @@ class Calculator {
                 if ($pos1 < $pos2) {
                     // If the delimiter comes first
                     $val = "\n";
-                    $pos = $pos1 + 1;
+                    $pos = $pos1 + strlen($delimiter);
                 } else {
                     // If the newline comes first
                     $val = $delimiter;
@@ -117,13 +126,20 @@ class Calculator {
             } else {
                 // Only newline after delimiter
                 $val = "\n";
-                $pos = $pos1 + 1;
+                $pos = $pos1 + strlen($delimiter);;
             }
         } else if ($pos2 !== false) {
             // If there's a delimiter after a newline
             $val = $delimiter;
             $pos = $pos2 + 1;
         } else {
+            $pos3 = stripos($input, $delimiter.$delimiter);
+            if ($pos3 !== false) {
+                // If there's two consecutive delimiters
+                $val = $delimiter;
+                $pos = $pos3 + strlen($delimiter);
+                return "Number expected but '" . $val . "' found at position " . $pos .".";
+            }
             // Check if the last number is missing
             $lastChar = substr($input, -1);
             if (strcmp($lastChar, $delimiter) === 0) {
